@@ -1,0 +1,4 @@
+rosnao/build/
+build/
+devel/
+src/CMakeLists.txt
