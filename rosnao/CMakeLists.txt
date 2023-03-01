@@ -7,6 +7,8 @@ set(sdk ${CMAKE_CURRENT_LIST_DIR}/../../naoqi_sdk_cpp)
 set(sdk_cmake ${sdk}/share/cmake)
 set(sdk_lib ${sdk}/lib)
 
+add_definitions(-w) # suppress all warnings
+
 include(${sdk}/config.cmake) #set(CMAKE_CXX_FLAGS "-std=gnu++11 -D_GLIBCXX_USE_CXX11_ABI=0" CACHE INTERNAL "" FORCE)
 include(${sdk_cmake}/qibuild/qibuild-config.cmake) # find_package(qibuild)
 include(${sdk_cmake}/alcommon/alcommon-config.cmake)
@@ -18,6 +20,7 @@ include(${sdk_cmake}/alvalue/alvalue-config.cmake)
 include(${sdk_cmake}/boost_signals/boost_signals-config.cmake)
 include(${sdk_cmake}/boost_system/boost_system-config.cmake)
 include(${sdk_cmake}/boost_filesystem/boost_filesystem-config.cmake)
+include(${sdk_cmake}/qi/qi-config.cmake)
 include(${sdk_cmake}/icu/icu-config.cmake)
 include(${sdk_cmake}/qibuild/modules/pthread-config.cmake)
 include(${sdk_cmake}/qibuild/modules/dl-config.cmake)
@@ -34,6 +37,7 @@ set(ROSNAO_LIBRARIES
     ${BOOST_FILESYSTEM_LIBRARIES}
     ${BOOST_SYSTEM_LIBRARIES}
     ${BOOST_SIGNALS_LIBRARIES}
+    ${QI_LIBRARIES}
     ${ICU_LIBRARIES}
     ${PTHREAD_LIBRARIES}
     ${DL_LIBRARIES}
@@ -46,6 +50,6 @@ set(ROSNAO_INCLUDE_DIRS
     ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-add_executable(rosnao src/main.cpp)
-target_include_directories(rosnao PUBLIC ${ROSNAO_INCLUDE_DIRS})
-target_link_libraries(rosnao PUBLIC ${ROSNAO_LIBRARIES})
+add_executable(rosnao_imager src/imager.cpp)
+target_include_directories(rosnao_imager PUBLIC ${ROSNAO_INCLUDE_DIRS})
+target_link_libraries(rosnao_imager PUBLIC ${ROSNAO_LIBRARIES})
