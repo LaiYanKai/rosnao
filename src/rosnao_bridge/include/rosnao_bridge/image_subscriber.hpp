@@ -1,8 +1,12 @@
-#include 
+#include "rosnao_common/image.hpp"
+#include <opencv2/opencv.hpp>
 
+#ifndef ROSNAO_BRIDGE_IMAGE_SUBSCRIBER_HPP
+#define ROSNAO_BRIDGE_IMAGE_SUBSCRIBER_HPP
 
-
-template <int res>
+namespace rosnao
+{
+    template <int res>
     class ImageSubscriber
     {
     private:
@@ -19,7 +23,7 @@ template <int res>
                 {
                     boost::interprocess::shared_memory_object shm(
                         boost::interprocess::open_only,
-                        shm_id,
+                        shm_id.c_str(),
                         boost::interprocess::read_only);
 
                     // Map the whole shared memory in this process
@@ -33,7 +37,7 @@ template <int res>
                 }
                 catch (boost::interprocess::interprocess_exception &ex)
                 {
-                    std::cout << "Attempt " << attempt << ": " << ex.what() << std::endl;
+                    std::cout << "Failed subscribing attempt " << attempt << ": " << ex.what() << std::endl;
                     if (attempt >= 5)
                         delete this;
                     else
@@ -43,8 +47,21 @@ template <int res>
         }
 
         ~ImageSubscriber()
-        {
-            // boost::interprocess::shared_memory_object::remove(shm_id.c_str());
+        { // boost::interprocess::shared_memory_object::remove(shm_id.c_str());
         }
 
+        cv::Mat get()
+        {
+            boost::interprocess::scoped_lock<boost::interprocess::interprocess_mutex> lock(shm_img->mutex);
+            cv::Mat mat(_img_t::width, _img_t::height, CV_8UC1, 0);
+
+            const size_t size = _img_t::height * _img_t::width * _img_t::channels;
+            auto &shm_data = shm_img->data;
+            for (size_t i = 0; i < size; ++i)
+                mat.data[i] = shm_data[i];
+
+            return mat;
+        }
     };
+}
+#endif

@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
     image_transport
 )
 find_package(OpenCV 4.2.0 REQUIRED)
+find_package(Boost REQUIRED)
 
 
 catkin_package( CATKIN_DEPENDS 
@@ -34,9 +35,15 @@ target_include_directories(rosnao_bridger_test PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/include
     ${catkin_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
-    ../../sdk/rosnao_common/include
+    ../rosnao_common/include
 )
 target_link_libraries(rosnao_bridger_test 
     ${catkin_LIBRARIES}
     ${OpenCV_LIBRARIES}
+    rt # for interprocess
 )
+
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.hpp"
+  PATTERN ".svn" EXCLUDE)

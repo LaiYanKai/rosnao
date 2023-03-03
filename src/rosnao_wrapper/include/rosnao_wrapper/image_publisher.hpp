@@ -8,8 +8,8 @@
 #include <boost/interprocess/sync/scoped_lock.hpp>
 #include "rosnao_common/image.hpp"
 
-#ifndef ROSNAO_IMAGER_HPP
-#define ROSNAO_IMAGER_HPP
+#ifndef ROSNAO_IMAGE_PUBLISHER_HPP
+#define ROSNAO_IMAGE_PUBLISHER_HPP
 namespace rosnao
 {
     // http://doc.aldebaran.com/2-8/naoqi/vision/alvideodevice-api.html#alvideodevice-api

@@ -25,18 +25,18 @@ namespace rosnao::transport
     template <>
     struct Image<kVGA> : AbstractImage
     {
-        inline const static int width = 320;
-        inline const static int height = 240;
-        inline const static int channels = 1;
+        const static int width = 320;
+        const static int height = 240;
+        const static int channels = 1;
         uint8_t data[width * height * channels];
     };
 
     template <>
     struct Image<kQVGA> : AbstractImage
     {
-        inline const static int width = 640;
-        inline const static int height = 480;
-        inline const static int channels = 1;
+        const static int width = 640;
+        const static int height = 480;
+        const static int channels = 1;
         uint8_t data[width * height * channels];
     };
 

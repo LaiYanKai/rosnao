@@ -11,7 +11,7 @@ extern "C" void interrupt_processing( int ) {
 
 int main(int argc, char **argv)
 {
-    if (argc < 5)
+    if (argc != 5)
     {
         std::cerr << "nao_ip, shm_id, res {1=QVGA, 2=VGA}, cam {0=top,1=bottom}" << std::endl;
         return 1;
