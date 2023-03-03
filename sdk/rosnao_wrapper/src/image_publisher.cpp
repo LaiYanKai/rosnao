@@ -1,9 +1,4 @@
-#include <alproxies/alvideodeviceproxy.h>
-#include <alvision/alvisiondefinitions.h>
-
-#include <signal.h>
-#include <iostream>
-#include "rosnao/imager.hpp"
+#include "rosnao_wrapper/image_publisher.hpp"
 
 rosnao::ImagePublisher<rosnao::kVGA> *pub_vga = nullptr;
 rosnao::ImagePublisher<rosnao::kQVGA> *pub_qvga = nullptr;

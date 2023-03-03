@@ -1,5 +1,5 @@
-#ifndef ROSNAO_TYPES_HPP
-#define ROSNAO_TYPES_HPP
+#ifndef ROSNAO_COMMON_TYPES_HPP
+#define ROSNAO_COMMON_TYPES_HPP
 namespace rosnao
 {
     const int kVGA = 2;

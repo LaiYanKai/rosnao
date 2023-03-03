@@ -1,8 +1,12 @@
+#include <alproxies/alvideodeviceproxy.h>
+#include <alvision/alvisiondefinitions.h>
+#include <signal.h>
+#include <iostream>
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 #include <boost/interprocess/sync/interprocess_mutex.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
-#include "rosnao/transport/imager.hpp"
+#include "rosnao_common/image.hpp"
 
 #ifndef ROSNAO_IMAGER_HPP
 #define ROSNAO_IMAGER_HPP

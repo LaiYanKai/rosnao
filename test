@@ -1,2 +1,4 @@
-chmod +x rosnao/build/rosnao_imager
-./rosnao/build/rosnao_imager 192.168.10.219 img0 1 0
+chmod +x rosnao_wrapper/build/rosnao_imager
+./rosnao_wrapper/build/rosnao_imager 192.168.10.219 img0 1 0
+
+# (trap 'kill 0' SIGINT; prog1 & prog2 & prog3)
