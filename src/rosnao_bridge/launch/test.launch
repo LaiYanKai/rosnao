@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Nodes -->
+    <arg name="args1" />
+    <node pkg="rosnao_bridge" type="rosnao_bridge_test" name="rosnao_bridge_test1" output="screen" args="$(arg args1)"/>
+</launch>

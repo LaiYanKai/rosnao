@@ -24,10 +24,13 @@ namespace rosnao
     private:
         using _img_t = transport::Image<res>;
         AL::ALVideoDeviceProxy proxy;
+        boost::interprocess::mapped_region region; // cannot be deleted (will cause segmentation fault)
         _img_t *shm_img;
+        std::string sub_id, shm_id;
+        int fps, cam;
+
         void _fill(const int32_t &sec, const int32_t &usec, const uint8_t *const &img_data)
         {
-            boost::interprocess::scoped_lock<boost::interprocess::interprocess_mutex> lock(shm_img->mutex); // this will release when _fill goes out of scope
             ++shm_img->seq;
             shm_img->sec = sec;
             shm_img->usec = usec;
@@ -36,10 +39,7 @@ namespace rosnao
             auto &shm_data = shm_img->data;
             for (size_t i = 0; i < size; ++i)
                 shm_data[i] = img_data[i];
-            std::cout << "Published Image " << shm_img->seq << std::endl;
         }
-        std::string sub_id, shm_id;
-        int fps, cam;
 
     public:
         //     ip: ip address
@@ -47,25 +47,34 @@ namespace rosnao
         //    fps: frames per second
         //    cam: kTopCamera (0) or kBottomCamera (1)
         ImagePublisher(const std::string &ip, const std::string &shm_id, const int &fps, const int &cam)
-            : proxy(ip), sub_id(proxy.subscribe(shm_id, AL::kQVGA, AL::kYuvColorSpace, fps)), shm_id(shm_id), fps(fps), cam(cam)
+            : proxy(ip), sub_id(shm_id), shm_id(shm_id), fps(fps), cam(cam)
         {
+            static_assert(rosnao::kQVGA == AL::kQVGA && rosnao::kVGA == AL::kVGA);
+            static_assert(res == rosnao::kQVGA || res == rosnao::kVGA);
+            proxy.unsubscribe(shm_id + "_0");
+
+            sub_id = proxy.subscribeCamera(shm_id, cam, AL::kQVGA, AL::kYuvColorSpace, fps);
             try
             {
+                boost::interprocess::shared_memory_object::remove(shm_id.c_str());
+
                 boost::interprocess::shared_memory_object shm(
-                    boost::interprocess::create_only,
+                    boost::interprocess::open_or_create,
                     shm_id.c_str(),
                     boost::interprocess::read_write);
 
                 shm.truncate(sizeof(_img_t));
-                boost::interprocess::mapped_region region(shm, boost::interprocess::read_write);
+                region = boost::interprocess::mapped_region(shm, boost::interprocess::read_write);
                 void *addr = region.get_address();
-                shm_img = new (addr) _img_t;
-                
-                proxy.setActiveCamera(sub_id, cam);
+                shm_img = new (addr)(_img_t);
+
+                proxy.releaseImage(sub_id);
+                std::cout << "Create with sub_id " << sub_id << std::endl;
             }
             catch (boost::interprocess::interprocess_exception &ex)
             {
-                std::cout << ex.what() << std::endl;
+                std::cout << "Boost Interprocess Exception: " << ex.what() << std::endl;
+                proxy.unsubscribe(shm_id);
                 delete this;
             }
         }
@@ -104,7 +113,9 @@ namespace rosnao
                 return;
             }
 
+            boost::interprocess::scoped_lock<boost::interprocess::interprocess_mutex> lock(shm_img->mutex); // this will release when _fill goes out of scope
             _fill(results[4], results[5], img_data);
+            std::cout << "Published Image " << shm_img->seq << std::endl;
 
             proxy.releaseImage(sub_id);
         }

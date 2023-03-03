@@ -23,7 +23,7 @@ namespace rosnao::transport
     };
 
     template <>
-    struct Image<kVGA> : AbstractImage
+    struct Image<kQVGA> : AbstractImage
     {
         const static int width = 320;
         const static int height = 240;
@@ -32,7 +32,7 @@ namespace rosnao::transport
     };
 
     template <>
-    struct Image<kQVGA> : AbstractImage
+    struct Image<kVGA> : AbstractImage
     {
         const static int width = 640;
         const static int height = 480;

@@ -16,6 +16,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    std::cout << argv[1] <<std::endl;
+    std::cout << argv[2] <<std::endl;
     const std::string shm_id = argv[1];
     const int res = std::stoi(argv[2]);
 
@@ -24,9 +26,14 @@ int main(int argc, char **argv)
         sub_vga = new rosnao::ImageSubscriber<rosnao::kVGA>(shm_id);
         while (ros::ok())
         {
-            cv::Mat im = sub_vga->get();
-            cv::imshow("test", im);
-            cv::waitKey(3);
+            auto p = sub_vga->get();
+            if (p.second)
+            {
+                std::cout << p.first.rows << p.first.cols << std::endl;
+
+                cv::imshow("test", p.first);
+                cv::waitKey(3);
+            }
             // ros::spinOnce();
         }
         delete sub_vga;
@@ -36,9 +43,12 @@ int main(int argc, char **argv)
         sub_qvga = new rosnao::ImageSubscriber<rosnao::kQVGA>(shm_id);
         while (ros::ok())
         {
-            cv::Mat im = sub_qvga->get();
-            cv::imshow("test", im);
-            cv::waitKey(3);
+            auto p = sub_qvga->get();
+            if (p.second)
+            {
+                cv::imshow("test", p.first);
+                cv::waitKey(3);
+            }
             // ros::spinOnce();
         }
         delete sub_qvga;

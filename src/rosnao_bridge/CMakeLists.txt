@@ -29,15 +29,15 @@ catkin_package( CATKIN_DEPENDS
     image_transport
 )
 
-add_executable(rosnao_bridger_test 
+add_executable(rosnao_bridge_test 
     src/test.cpp)
-target_include_directories(rosnao_bridger_test PUBLIC
+target_include_directories(rosnao_bridge_test PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/include
     ${catkin_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
     ../rosnao_common/include
 )
-target_link_libraries(rosnao_bridger_test 
+target_link_libraries(rosnao_bridge_test 
     ${catkin_LIBRARIES}
     ${OpenCV_LIBRARIES}
     rt # for interprocess

@@ -1,4 +1,5 @@
-rosnao/build/
+src/rosnao_wrapper/build/
+src/rosnao_wrapper/build-mcfg/
 build/
 devel/
 src/CMakeLists.txt
