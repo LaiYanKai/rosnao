@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Nodes -->
+    <arg name="args1" />
+    <node pkg="rosnao_bridge" type="image_relay" name="image_relay1" output="screen" args="$(arg args1)"/>
+</launch>

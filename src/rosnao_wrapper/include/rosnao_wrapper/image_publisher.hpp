@@ -51,7 +51,11 @@ namespace rosnao
         {
             static_assert(rosnao::kQVGA == AL::kQVGA && rosnao::kVGA == AL::kVGA);
             static_assert(res == rosnao::kQVGA || res == rosnao::kVGA);
-            proxy.unsubscribe(shm_id + "_0");
+
+            // Does not unsubscribe other streams with a different name
+            std::cout << "Unsubscribing other proxy camera streams with same name" << std::endl;
+            for (int i = 0; i < 6; ++i) // max 6 variations of the same name are allowed by the sdk. Unsubscribe all
+                proxy.unsubscribe(shm_id + "_" + std::to_string(i));
 
             sub_id = proxy.subscribeCamera(shm_id, cam, AL::kQVGA, AL::kYuvColorSpace, fps);
             try

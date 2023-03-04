@@ -11,7 +11,7 @@ include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/../rosnao_common/include
     ${CMAKE_CURRENT_LIST_DIR}/include)
 
-qi_create_bin(${PROJECT_NAME}_imagepub "src/image_publisher.cpp" 
+qi_create_bin(image_pub "src/image_publisher.cpp" 
     DEPENDS ALCOMMON ALPROXIES ALVISION BOOST)
 
 # set(sdk $ENV{HOME}/naoqi_sdk_cpp)
@@ -71,7 +71,7 @@ qi_create_bin(${PROJECT_NAME}_imagepub "src/image_publisher.cpp"
 #     ${CMAKE_CURRENT_LIST_DIR}/../rosnao_common/include
 # )
 
-# set(EXE_IMAGEPUB ${PROJECT_NAME}_imagepub)
+# set(EXE_IMAGEPUB image_pub)
 # add_executable(${EXE_IMAGEPUB} src/image_publisher.cpp)
 # target_include_directories(${EXE_IMAGEPUB} PUBLIC ${ROSNAO_WRAPPER_INCLUDE_DIRS})
 # target_link_libraries(${EXE_IMAGEPUB} PUBLIC ${ROSNAO_WRAPPER_LIBRARIES})
