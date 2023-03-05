@@ -13,7 +13,7 @@ namespace rosnao
     class ImageSubscriber
     {
     private:
-        using _img_t = transport::Image<res>;
+        using _img_t = transport::SHMImage<res>;
         _img_t *shm_img;
         boost::interprocess::mapped_region region;
         cv::Mat mat;

@@ -24,13 +24,9 @@ sudo apt install python3-pip
 chmod +x *.sh
 ```
 7. Open `init_qibuild.sh`  and make sure `SDK_DIR` is pointing to the correct path of the `nao_sdk_cpp` folder. It is if you downloaded the SDK into the home `~` folder. Save when done.
-8. Install qibuild and configures it for this project:
+8. Install qibuild and configures it for this project. If prompted, install the qibuild if it is not installed, and choose `Unix Makefiles` for CMake Generator and `None` for IDE:
 ```
 sh init_qibuild.sh
-```
-8. Make all ROS packages and SDK code:
-```
-sh clean_make_all.sh
 ```
 
 # Streaming the Grayscale Camera

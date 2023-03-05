@@ -1,13 +1,15 @@
 #!/bin/bash
 SDK_DIR=~/naoqi_sdk_cpp
 
-if [[ ! -f `echo $SDK_DIR`/toolchain.xml ]] ; then
+TOOLCHAIN_FILE=`echo $SDK_DIR`/toolchain.xml
+if [ ! -f "$TOOLCHAIN_FILE" ]; then
     echo 'SDK not found'
     exit
 fi
 
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+SCRIPT_DIR=$(dirname `echo $(realpath "$0")`)
 chmod +x `echo $SCRIPT_DIR`/*.sh
+chmod +x `echo $SCRIPT_DIR`/src/rosnao_bridge/scripts/*.sh
 
 # adapted from http://doc.aldebaran.com/2-8/dev/cpp/install_guide.html
 pip install qibuild --user
@@ -24,6 +26,9 @@ qibuild config --wizard
 
 cd `echo $SCRIPT_DIR`/src/rosnao_wrapper
 # qibuild init # should already been initialised (in git code)
-
+qibuild init
 qitoolchain create mtc `echo $SDK_DIR`/toolchain.xml
 qibuild add-config mcfg -t mtc --default
+
+cd `echo $SCRIPT_DIR`
+sh clean_make_all.sh

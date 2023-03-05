@@ -1,5 +1,7 @@
 src/rosnao_wrapper/build/
 src/rosnao_wrapper/build-mcfg/
+src/rosnao_wrapper/.qi/
+src/rosnao_wrapper/qiproject.xml
 build/
 devel/
 src/CMakeLists.txt

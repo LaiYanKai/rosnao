@@ -1,8 +1,7 @@
 #!/bin/bash
+SCRIPT_DIR=$(dirname `echo $(realpath "$0")`)
+source `echo SCRIPT_DIR`/get_bin_dir.sh
 
 # Launches the Video Device proxy in Nao, and puts the image into shared memory
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
-BIN_DIR=`echo $SCRIPT_DIR`/../../rosnao_wrapper/build-mcfg/sdk/bin
-
-(cd `echo $BIN_DIR`; chmod +x `echo image_pub`; ./image_pub $1 $2 $3 $4) #IP , SHM_ID, RES, CAM
+(cd `echo $BIN_DIR`; chmod +x `echo image_pub`; ./image_pub $1 $2 $3 $4) #IP, SHM_ID, RES, CAM
 exit 0

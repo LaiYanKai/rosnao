@@ -1,6 +1,6 @@
 <project version="3">
   <!-- Add your name and e-mail here
-    <maintainer email="...">Your Name</maintainer>
+    <maintainer email="...">LaiYK</maintainer>
   -->
 
   <qibuild name="rosnao_wrapper">
