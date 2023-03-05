@@ -1,32 +1,34 @@
 Exposes some functionalities for the Capstone VSLAM projects in ROS.
-Avoids complicated install and possible latency issues with other ros implementations.
+Avoids complicated install and possible latency issues with other ROS implementations.
 
 # Prequisites
 1. Make sure you are on Ubuntu 20.04 LTS with ROS Noetic installed.
 2. The robot used is Nao 6.
 
 # First Time Setup
-1. Download the SDK to the **home (~)** folder from [here](https://community-static.aldebaran.com/resources/2.8.5/naoqi-sdk-2.8.5.10-linux64.tar.gz).
-2. Right-click the .tar.gz file and click **Extract Here**. Make sure the extracted folder (and not any nested folders) contains a `toolchain.xml`.
-3. Make sure you have pip installed:
-```
-sudo apt install python3-pip
-```
-4. Open a terminal and go into the workspace folder:
+1. Download the SDK from [here](https://community-static.aldebaran.com/resources/2.8.5/naoqi-sdk-2.8.5.10-linux64.tar.gz), preferably to the home `~` folder.
+2. Right-click the .tar.gz file and click **Extract Here**. Make sure the top extracted folder is called `naoqi-sdk-2.8.5.10-linux64` and contains a `toolchain.xml` (not in any nested folders).
+3. Rename the top extracted folder from `naoqi-sdk-2.8.5.10-linux64` to `nao_sdk_cpp`.
+4. Open a terminal, clone this repository, and go into the `rosnao` workspace folder.
 ```
 cd ~
 git clone https://github.com/LaiYanKai/rosnao.git
 cd ~/rosnao
 ```
-5. Assign permissions to all bash scripts in the workspace:
+5. Make sure you have `pip` installed:
+```
+sudo apt install python3-pip
+```
+6. Assign permissions to all bash scripts in the workspace:
 ```
 chmod +x *.sh
 ```
-6. Install qibuild and configures the tool for this project:
+7. Open `init_qibuild.sh`  and make sure `SDK_DIR` is pointing to the correct path of the `nao_sdk_cpp` folder. It is if you downloaded the SDK into the home `~` folder. Save when done.
+8. Install qibuild and configures it for this project:
 ```
 sh init_qibuild.sh
 ```
-7. Make all ROS packages and SDK code:
+8. Make all ROS packages and SDK code:
 ```
 sh clean_make_all.sh
 ```
