@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 <launch>
-    <!-- Nodes -->
-    <arg name="args1" />
-    <node pkg="rosnao_bridge" type="image_relay" name="image_relay1" output="screen" args="$(arg args1)"/>
+    <arg name="ns" default="" />
+    <arg name="nao_ip" default="127.0.0.1"/>
+    <arg name="shm_id" default="img"/>
+    <arg name="res" default="1" /> <!--1 for QVGA, 2 for VGA-->
+    <arg name="cam" default="0" /> <!--0 for bottom, 1 for top-->
+    <arg name="topic" default="cam" />
+    <arg name="frame" default="world" />
+
+    <!-- Launch node on ros end to publish image from shared memory -->
+    <node pkg="rosnao_bridge" type="image_relay" name="image_relay" output="screen" args="$(arg shm_id) $(arg res) $(arg topic) $(arg frame)" />
+    <!-- Interface with sdk, launches proxy in nao, and put the image in shared memory -->
+    <node pkg="rosnao_bridge" type="image_relay.sh" name="image_relay_wrapper" output="screen" args="$(arg nao_ip) $(arg shm_id) $(arg res) $(arg cam)"/>
 </launch>

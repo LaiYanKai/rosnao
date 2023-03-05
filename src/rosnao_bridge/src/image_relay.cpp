@@ -13,9 +13,9 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "rosnao_image_relay");
     ros::NodeHandle nh;
 
-    if (argc != 4)
+    if (argc != 5)
     {
-        std::cerr << "shm_id, res {1=QVGA, 2=VGA}, topic" << std::endl;
+        std::cerr << "Wrong arguments for IMAGE_RELAY. Usage: shm_id, res {1=QVGA, 2=VGA}, topic, frame_id" << std::endl;
         return 1;
     }
 
@@ -23,16 +23,18 @@ int main(int argc, char **argv)
               << ": shm_id[" << argv[1]
               << "] res[" << argv[2]
               << "] topic[" << argv[3]
+              << "] frame_id[" << argv[4]
               << "]" << std::endl;
 
     const std::string shm_id = argv[1];
     const int res = std::stoi(argv[2]);
     const std::string topic = argv[3];
+    const std::string frame_id = argv[4];
 
     if (res == rosnao::kVGA)
-        sub_vga = new rosnao::ImageSubscriber<rosnao::kVGA>(shm_id);
+        sub_vga = new rosnao::ImageSubscriber<rosnao::kVGA>(shm_id, frame_id);
     else if (res == rosnao::kQVGA)
-        sub_qvga = new rosnao::ImageSubscriber<rosnao::kQVGA>(shm_id);
+        sub_qvga = new rosnao::ImageSubscriber<rosnao::kQVGA>(shm_id, frame_id);
     else
         assert(false); // res must be 1 (QVGA) or 2 (VGA)
 

@@ -22,9 +22,10 @@ namespace rosnao
         uint32_t seq = 0;
 
     public:
-        ImageSubscriber(const std::string &shm_id) : shm_id(shm_id), mat(_img_t::height, _img_t::width, CV_8UC1)
+        ImageSubscriber(const std::string &shm_id, const std::string &frame_id)
+            : shm_id(shm_id), mat(_img_t::height, _img_t::width, CV_8UC1)
         {
-            for (int attempt = 0;; ++attempt)
+            for (int attempt = 0; ros::ok(); ++attempt)
             {
                 try
                 {
@@ -54,7 +55,7 @@ namespace rosnao
 
             // init msg
             msg = boost::make_shared<sensor_msgs::Image>();
-            msg->header.frame_id = "world";
+            msg->header.frame_id = frame_id;
             msg->height = _img_t::height;
             msg->width = _img_t::width;
             msg->encoding = "mono8";
@@ -102,7 +103,7 @@ namespace rosnao
             auto &shm_data = shm_img->data;
             // for (size_t i = 0; i < size; ++i)
             //     msg->data[i] = shm_data[i];
-            memcpy((uint8_t*)(&msg->data[0]), shm_data, size);
+            memcpy((uint8_t *)(&msg->data[0]), shm_data, size);
 
             // cv_bridge::CvImage(std_msgs::Header(), "mono8", p.first).toImageMsg()
 
