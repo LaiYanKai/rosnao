@@ -13,7 +13,7 @@ include_directories(
 
 qi_create_bin(image_pub "src/image_publisher.cpp" 
     DEPENDS ALCOMMON ALPROXIES ALVISION BOOST)
-qi_create_bin(motion "src/motion.cpp" 
+qi_create_bin(motion_proxy "src/motion_proxy.cpp" 
     DEPENDS ALCOMMON ALPROXIES BOOST)
 
 # set(sdk $ENV{HOME}/naoqi_sdk_cpp)

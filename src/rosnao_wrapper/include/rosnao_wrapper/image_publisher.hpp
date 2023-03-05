@@ -7,6 +7,7 @@
 #include <boost/interprocess/sync/interprocess_mutex.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
 #include "rosnao_common/image.hpp"
+#include "rosnao_wrapper/common.hpp"
 
 #ifndef ROSNAO_IMAGE_PUBLISHER_HPP
 #define ROSNAO_IMAGE_PUBLISHER_HPP
@@ -22,7 +23,7 @@ namespace rosnao
     class ImagePublisher
     {
     private:
-        using _img_t = transport::Image<res>;
+        using _img_t = transport::SHMImage<res>;
         AL::ALVideoDeviceProxy proxy;
         boost::interprocess::mapped_region region; // cannot be deleted (will cause segmentation fault)
         _img_t *shm_img;
@@ -73,11 +74,11 @@ namespace rosnao
                 shm_img = new (addr)(_img_t);
 
                 proxy.releaseImage(sub_id);
-                std::cout << "Create with sub_id " << sub_id << std::endl;
+                std::cout << "ImagePublisher: Create with sub_id " << sub_id << std::endl;
             }
             catch (boost::interprocess::interprocess_exception &ex)
             {
-                std::cout << "Boost Interprocess Exception: " << ex.what() << std::endl;
+                std::cerr << "Boost Interprocess Exception: " << ex.what() << std::endl;
                 proxy.unsubscribe(shm_id);
                 delete this;
             }
