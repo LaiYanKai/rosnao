@@ -7,6 +7,7 @@ if [[ ! -f `echo $SDK_DIR`/toolchain.xml ]] ; then
 fi
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+chmod +x `echo $SCRIPT_DIR`/*.sh
 
 # adapted from http://doc.aldebaran.com/2-8/dev/cpp/install_guide.html
 pip install qibuild --user

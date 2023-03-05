@@ -1,5 +1,6 @@
-#include <alproxies/alvideodeviceproxy.h>
-#include <alvision/alvisiondefinitions.h>
+
+#include <alproxies/almotionproxy.h>
+#include <alproxies/alrobotpostureproxy.h>
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/interprocess/mapped_region.hpp>
 #include <boost/interprocess/sync/interprocess_mutex.hpp>
@@ -13,6 +14,7 @@
 
 namespace rosnao
 {
+
 
 }
 #endif
