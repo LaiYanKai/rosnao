@@ -28,13 +28,16 @@ namespace rosnao
         enum MotionFunction
         {
             Null,
+            MoveInit,
             MoveTo,
+            Rest,
             SetAngle,
+            WakeUp,
         };
         struct SHMMotion
         {
             boost::interprocess::interprocess_mutex mutex;
-            const float x = 0, y = 0, angle = 0, speed = 0;
+            float x = 0, y = 0, angle = 0, speed = 0;
             uint32_t seq = 0;
             Joint joint = Joint::Null;
             MotionFunction func = MotionFunction::Null;

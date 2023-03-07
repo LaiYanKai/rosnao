@@ -22,6 +22,9 @@ namespace rosnao
         uint32_t seq = 0;
 
     public:
+        ImageSubscriber &operator=(const ImageSubscriber &) = delete;
+        ImageSubscriber(const ImageSubscriber &) = delete;
+
         ImageSubscriber(const std::string &shm_id, const std::string &frame_id)
             : shm_id(shm_id), mat(_img_t::height, _img_t::width, CV_8UC1)
         {

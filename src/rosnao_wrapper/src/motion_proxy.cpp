@@ -55,10 +55,16 @@ _def_interrupt
                 continue;
             seq = ++shm_motion->seq;
 
-            if (shm_motion->func == rosnao::transport::MotionFunction::MoveTo)
+            if (shm_motion->func == rosnao::transport::MotionFunction::MoveInit)
+                motion_proxy.moveInit();
+            else if (shm_motion->func == rosnao::transport::MotionFunction::MoveTo)
                 motion_proxy.moveTo(shm_motion->x, shm_motion->y, shm_motion->angle);
+            else if (shm_motion->func == rosnao::transport::MotionFunction::Rest)
+                motion_proxy.rest();
             else if (shm_motion->func == rosnao::transport::MotionFunction::SetAngle)
                 motion_proxy.setAngle(shm_motion->joint, shm_motion->angle, shm_motion->speed, shm_motion->block);
+            else if (shm_motion->func == rosnao::transport::MotionFunction::WakeUp)
+                motion_proxy.wakeUp();
         }
     }
     catch (...)

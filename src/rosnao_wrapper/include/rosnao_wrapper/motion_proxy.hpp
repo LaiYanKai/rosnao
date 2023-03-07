@@ -36,14 +36,21 @@ namespace rosnao
             assert(move_cfg[3][0] == std::string("MaxStepFrequency"));
             move_cfg[3][1] = 0.1; // set maxstepfrequency  to move slower
         }
+        ~MotionProxy() { proxy.rest(); }
+
+        // stiffens the joints and stands up.
+        void wakeUp() { proxy.wakeUp(); }
+
+        // resets the posture of the robot to a walking position.
+        void moveInit() { proxy.moveInit(); }
+
+        // unstiffens the joints and crouch. Helps to prevent motors from overheating.
+        void rest() { proxy.rest(); }
 
         // Moves robot x (m), y (m), yaw (radians) in robot's frame from current robot pose. 
         // This function is blocking.
         // http://doc.aldebaran.com/2-8/naoqi/motion/control-walk-api.html
-        void moveTo(const float &x, const float &y, const float & yaw)
-        {
-            proxy.moveTo(x, y, yaw, move_cfg);
-        }
+        void moveTo(const float &x, const float &y, const float & yaw) { proxy.moveTo(x, y, yaw, move_cfg); }
 
         // Moves a joint to an absolute angle (rad), at fraction_max_speed (between 0 and 1)
         // By default, this function blocks until the joint is within 0.04 rad of the angle (the internal controller has no steady-state control). Set block to false to unblock.

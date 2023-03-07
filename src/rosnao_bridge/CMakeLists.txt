@@ -29,19 +29,25 @@ catkin_package( CATKIN_DEPENDS
     image_transport
 )
 
-add_executable(image_relay
-    src/image_relay.cpp)
-target_include_directories(image_relay PUBLIC
+set(ROSNAO_BRIDGE_INCLUDE_DIRS
     ${CMAKE_CURRENT_LIST_DIR}/include
     ${catkin_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
     ../rosnao_common/include
 )
-target_link_libraries(image_relay 
+set(ROSNAO_BRIDGE_LIBRARIES
     ${catkin_LIBRARIES}
     ${OpenCV_LIBRARIES}
     rt # for interprocess
 )
+
+add_executable(image_relay src/image_relay.cpp)
+target_include_directories(image_relay PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
+target_link_libraries(image_relay ${ROSNAO_BRIDGE_LIBRARIES})
+
+add_executable(test_motion src/test_motion.cpp)
+target_include_directories(test_motion PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
+target_link_libraries(test_motion ${ROSNAO_BRIDGE_LIBRARIES})
 
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}

@@ -43,15 +43,39 @@ sh init_qibuild.sh
    * Save and exit when done.
 
 
-3. Run the camera
+3. Run the camera and RViz.
 ```
-sh run_cam.sh
+cd ~/rosnao
+./run_cam.sh
 ```
 4. The feed is grayscale for OrbSLAM purposes.
 ## Viewing the Image Topic in RViz
+DEPRECATED. RViz is already launched with run_cam.sh
 1. In **another terminal**, launch RViz using:
 ```rviz```
 2. In RViz, change the base frame to `world` (from `map`).
 3. Add the `Image` display,
 4. Then, change the topic in the `Image` display to whatever is in `TOPIC` IN `run_cam.sh`.
 5. Make sure `run_cam.sh` is running in another terminal to see the camera stream in RViz.
+
+# Walking the robot and turning its head
+## Overview
+A complete list of SDK functions, can be found [here](http://doc.aldebaran.com/2-8/naoqi/motion/control-walk-api.html#control-walk-api).
+Only the bare minimum of the SDK is exposed in the class `Motion` in `src/rosnao_brige/include/motion.hpp`. 
+1. `setAngle`: Can only turn the head to a specified yaw angle. 1.57 radians means look left 90 deg, -1.57 means look right. Angle is adjustable. Fractional max speed should be kept low to scan the environment. Can be blocking or unblocking.
+2. `moveTo`: The robot can move to a pose in x, y, yaw, relative to current pose (i.e. in robot's frame). The speed of walking is already minimal to reduce head bobbing.
+3. `wakeup`, `rest` and `moveInit` functions. (see comments in `test_motion.cpp`).
+
+## Running and Testing
+1. Make sure the robot is started up, and connected to an access point via its wi-fi or an ethernet cable. Press the chest button to get its IP address.
+
+2. In the `rosnao` workspace folder, open `run_cam.sh` and edit the IP address of the NAO robot.
+
+3. Run the motion:
+```
+cd ~/rosnao
+./run_motion.sh
+```
+4. Modify `src/rosnao_bridge/src/test_motion.cpp` and try from there.
+
+You can choose to export this package but must first add the `motion.hpp` into a library using `add_library` in `CMakeLists.txt` in order to use it.

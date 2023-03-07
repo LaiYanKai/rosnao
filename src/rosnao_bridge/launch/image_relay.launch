@@ -7,8 +7,10 @@
     <arg name="topic" default="cam" />
     <arg name="frame" default="world" />
 
-    <!-- Launch node on ros end to publish image from shared memory -->
-    <node pkg="rosnao_bridge" type="image_relay" name="image_relay" output="screen" args="$(arg shm_id) $(arg res) $(arg topic) $(arg frame)" />
+    <!-- Launch node on ros end to publish image from shared memory -in shared memory -->
+    <node pkg="rosnao_bridge" type="image_relay" name="image_relay" output="screen" args="$(arg shm_id) $(arg res) $(arg topic) $(arg frame)" required="true"/>
     <!-- Interface with sdk, launches proxy in nao, and put the image in shared memory -->
     <node pkg="rosnao_bridge" type="image_relay.sh" name="image_relay_sdk" output="screen" args="$(arg nao_ip) $(arg shm_id) $(arg res) $(arg cam)" required="true"/>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rosnao_bridge)/rviz/cam.rviz"/>
 </launch>
