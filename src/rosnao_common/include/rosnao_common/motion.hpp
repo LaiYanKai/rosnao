@@ -28,8 +28,10 @@ namespace rosnao
         enum MotionFunction
         {
             Null,
+            Move,
             MoveInit,
             MoveTo,
+            MoveToward,
             Rest,
             SetAngle,
             WakeUp,

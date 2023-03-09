@@ -49,6 +49,10 @@ add_executable(test_motion src/test_motion.cpp)
 target_include_directories(test_motion PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
 target_link_libraries(test_motion ${ROSNAO_BRIDGE_LIBRARIES})
 
+add_executable(teleop src/teleop.cpp)
+target_include_directories(teleop PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
+target_link_libraries(teleop ${ROSNAO_BRIDGE_LIBRARIES})
+
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.hpp"

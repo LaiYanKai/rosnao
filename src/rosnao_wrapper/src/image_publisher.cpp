@@ -3,10 +3,9 @@
 rosnao::ImagePublisher<rosnao::kVGA> *pub_vga = nullptr;
 rosnao::ImagePublisher<rosnao::kQVGA> *pub_qvga = nullptr;
 
-_def_interrupt
+_def_interrupt;
 
-    int
-    main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     if (argc != 5)
     {

@@ -62,14 +62,16 @@ DEPRECATED. RViz is already launched with run_cam.sh
 ## Overview
 A complete list of SDK functions, can be found [here](http://doc.aldebaran.com/2-8/naoqi/motion/control-walk-api.html#control-walk-api).
 Only the bare minimum of the SDK is exposed in the class `Motion` in `src/rosnao_brige/include/motion.hpp`. 
-1. `setAngle`: Can only turn the head to a specified yaw angle. 1.57 radians means look left 90 deg, -1.57 means look right. Angle is adjustable. Fractional max speed should be kept low to scan the environment. Can be blocking or unblocking.
-2. `moveTo`: The robot can move to a pose in x, y, yaw, relative to current pose (i.e. in robot's frame). The speed of walking is already minimal to reduce head bobbing.
-3. `wakeup`, `rest` and `moveInit` functions. (see comments in `test_motion.cpp`).
+- `setAngle`: Can only turn the head to a specified yaw angle. 1.57 radians means look left 90 deg, -1.57 means look right. Angle is adjustable. Fractional max speed should be kept low to scan the environment. Can be blocking or unblocking.
+- `moveTo`: The robot can move to a pose in x, y, yaw, relative to current pose (i.e. in robot's frame). The speed of walking is already minimal to reduce head bobbing.
+- `moveToward`: Moves the robot in normalised x, y, yaw velocities (-1 to 1) in the robot frame.
+- `move`: Moves the robot in x (m/s), y (m/s), yaw (rad/s) velocities.
+- `wakeup`, `rest` and `moveInit` functions. (see comments in `test_motion.cpp`).
 
 ## Running and Testing
 1. Make sure the robot is started up, and connected to an access point via its wi-fi or an ethernet cable. Press the chest button to get its IP address.
 
-2. In the `rosnao` workspace folder, open `run_cam.sh` and edit the IP address of the NAO robot.
+2. In the `rosnao` workspace folder, open `run_motion.sh` and edit the IP address of the NAO robot.
 
 3. Run the motion:
 ```
@@ -79,3 +81,32 @@ cd ~/rosnao
 4. Modify `src/rosnao_bridge/src/test_motion.cpp` and try from there.
 
 You can choose to export this package but must first add the `motion.hpp` into a library using `add_library` in `CMakeLists.txt` in order to use it.
+
+# Teleoperation
+Teleoperate using the keyboard on the remote PC by moving the robot in normalised velocities.
+
+The robot is ***stable between -0.8 and 0.8 normalised velocities***. Beyond that, it may become unstable.
+
+## Keys to Teleoperate NAO
+| Key    | Description                                    | Math        |
+| ---    | ---                                            | ---         |
+|  w     | Move forward faster                            | x += 0.1    |
+|  x     | Move backward faster                           | x -= 0.1    |
+|  a     | Strafe leftward faster                         | y += 0.1    |
+|  d     | Strafe rightward faster                        | y -= 0.1    |
+|  q     | Rotate leftward faster                         | yaw += 0.1  |
+|  e     | Rotate rightward faster                        | yaw -= 0.1  |
+|  s     | Stops all motion                               |             |
+|  Else  | Press any other key to stop the teleoperation  |             |
+
+
+
+1. In the `rosnao` workspace folder, open `run_teleop.sh` and edit the IP address of the NAO robot.
+2. Run the teleoperation with:
+```
+cd ~/rosnao
+./run_teleop.sh
+```
+3. Wait for the robot to stand up.
+4. Teleoperate. Avoid moving the robot faster than 0.8 normalised speeds.
+5. After ending the teleoperate, wait a while for the robot go into resting position.

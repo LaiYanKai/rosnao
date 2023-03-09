@@ -64,23 +64,6 @@ namespace rosnao
             }
         }
 
-        // Walk to x(m), y(m), and yaw(rad) pose in the robot's frame, treating the current pose as (0,0,0).
-        // Blocks until the walk is complete.
-        void moveTo(const float &x, const float &y, const float &yaw)
-        {
-            { // acquires a lock and sends the command to shm
-                get_scoped_lock;
-                seq = ++shm_motion->seq;
-                shm_motion->func = transport::MotionFunction::MoveTo;
-                shm_motion->x = x;
-                shm_motion->y = y;
-                shm_motion->angle = yaw;
-            }
-
-            // blocks execution until the proxy completes
-            blockUntilProxyCompletes();
-        }
-
         // Moves a joint to an absolute angle (rad), at fraction_max_speed (between 0 and 1)
         // By default, this function blocks until the joint is within 0.04 rad of the angle (the internal controller has no steady-state control). Set block to false to unblock.
         void setAngle(const rosnao::Joint &joint, const float &angle, const float &fraction_max_speed, const bool &block = true)
@@ -112,6 +95,23 @@ namespace rosnao
             blockUntilProxyCompletes();
         }
 
+        // Moves robot at x (m/s), y (m/s) and yaw (m/s) velocities in robot's frame.
+        void move(const float &x_vel, const float &y_vel, const float &yaw_vel)
+        {
+            { // acquires a lock and sends the command to shm
+                get_scoped_lock;
+                seq = ++shm_motion->seq;
+                shm_motion->func = transport::MotionFunction::Move;
+                shm_motion->x = x_vel;
+                shm_motion->y = y_vel;
+                shm_motion->angle = yaw_vel;
+            }
+
+            // blocks execution until the proxy completes
+            blockUntilProxyCompletes();
+        }
+
+
         // resets the posture of the robot to a walking position.
         void moveInit()
         {
@@ -119,6 +119,39 @@ namespace rosnao
                 get_scoped_lock;
                 seq = ++shm_motion->seq;
                 shm_motion->func = transport::MotionFunction::MoveInit;
+            }
+
+            // blocks execution until the proxy completes
+            blockUntilProxyCompletes();
+        }
+
+        // Walk to x(m), y(m), and yaw(rad) pose in the robot's frame, treating the current pose as (0,0,0).
+        // Blocks until the walk is complete.
+        void moveTo(const float &x, const float &y, const float &yaw)
+        {
+            { // acquires a lock and sends the command to shm
+                get_scoped_lock;
+                seq = ++shm_motion->seq;
+                shm_motion->func = transport::MotionFunction::MoveTo;
+                shm_motion->x = x;
+                shm_motion->y = y;
+                shm_motion->angle = yaw;
+            }
+
+            // blocks execution until the proxy completes
+            blockUntilProxyCompletes();
+        }
+
+        // Moves robot at x, y and yaw normalised velocities (-1 to 1) in robot's frame.
+        void moveToward(const float &x_nvel, const float &y_nvel, const float &yaw_nvel) 
+        { 
+            { // acquires a lock and sends the command to shm
+                get_scoped_lock;
+                seq = ++shm_motion->seq;
+                shm_motion->func = transport::MotionFunction::MoveToward;
+                shm_motion->x = x_nvel;
+                shm_motion->y = y_nvel;
+                shm_motion->angle = yaw_nvel;
             }
 
             // blocks execution until the proxy completes

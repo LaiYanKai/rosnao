@@ -1,9 +1,8 @@
 #include "rosnao_wrapper/motion_proxy.hpp"
 
-_def_interrupt
+_def_interrupt;
 
-    int
-    main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     if (argc != 3)
     {
@@ -55,10 +54,14 @@ _def_interrupt
                 continue;
             seq = ++shm_motion->seq;
 
-            if (shm_motion->func == rosnao::transport::MotionFunction::MoveInit)
+            if (shm_motion->func == rosnao::transport::MotionFunction::Move)
+                motion_proxy.move(shm_motion->x, shm_motion->y, shm_motion->angle);
+            else if (shm_motion->func == rosnao::transport::MotionFunction::MoveInit)
                 motion_proxy.moveInit();
             else if (shm_motion->func == rosnao::transport::MotionFunction::MoveTo)
                 motion_proxy.moveTo(shm_motion->x, shm_motion->y, shm_motion->angle);
+            else if (shm_motion->func == rosnao::transport::MotionFunction::MoveToward)
+                motion_proxy.moveToward(shm_motion->x, shm_motion->y, shm_motion->angle);
             else if (shm_motion->func == rosnao::transport::MotionFunction::Rest)
                 motion_proxy.rest();
             else if (shm_motion->func == rosnao::transport::MotionFunction::SetAngle)
@@ -70,11 +73,6 @@ _def_interrupt
     catch (...)
     {
     }
-
-    // motion_proxy.moveTo(0.3, 0, 1.57);
-    // motion_proxy.moveTo(0, 0.3, -1.57);
-    // motion_proxy.setAngle(rosnao::Joint::HeadYaw, 1.57, 0.05, true);
-    // motion_proxy.setAngle(rosnao::Joint::HeadYaw, -1.57, 0.2, true);
 
     _uninstall_interrupt;
     boost::interprocess::shared_memory_object::remove(shm_id.c_str());
