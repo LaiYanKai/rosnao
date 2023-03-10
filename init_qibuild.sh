@@ -1,5 +1,5 @@
 #!/bin/bash
-SDK_DIR=~/naoqi_sdk_cpp
+SDK_DIR=~/nao_sdk_cpp
 
 TOOLCHAIN_FILE=`echo $SDK_DIR`/toolchain.xml
 if [ ! -f "$TOOLCHAIN_FILE" ]; then
