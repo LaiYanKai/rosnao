@@ -8,7 +8,7 @@ Avoids complicated install and possible latency issues with other ROS implementa
 # First Time Setup
 1. Download the SDK from [here](https://community-static.aldebaran.com/resources/2.8.5/naoqi-sdk-2.8.5.10-linux64.tar.gz), preferably to the home `~` folder.
 2. Right-click the .tar.gz file and click **Extract Here**. Make sure the top extracted folder is called `naoqi-sdk-2.8.5.10-linux64` and contains a `toolchain.xml` (not in any nested folders).
-3. Rename the top extracted folder from `naoqi-sdk-2.8.5.10-linux64` to `nao_sdk_cpp`.
+3. Rename the top extracted folder from `naoqi-sdk-2.8.5.10-linux64` to `naoqi_sdk_cpp`.
 4. Open a terminal, clone this repository, and go into the `rosnao` workspace folder.
 ```
 cd ~
@@ -23,7 +23,7 @@ sudo apt install python3-pip
 ```
 chmod +x *.sh
 ```
-7. Open `init_qibuild.sh`  and make sure `SDK_DIR` is pointing to the correct path of the `nao_sdk_cpp` folder. It is if you downloaded the SDK into the home `~` folder. Save when done.
+7. Open `init_qibuild.sh`  and make sure `SDK_DIR` is pointing to the correct path of the `naoqi_sdk_cpp` folder. It is if you downloaded the SDK into the home `~` folder. Save when done.
 8. Install qibuild and configures it for this project. If prompted, install the qibuild if it is not installed, and choose `Unix Makefiles` for CMake Generator and `None` for IDE:
 ```
 sh init_qibuild.sh
