@@ -2,7 +2,7 @@ Exposes some functionalities for the Capstone VSLAM projects in ROS.
 Avoids complicated install and possible latency issues with other ROS implementations.
 
 # Prequisites
-1. Make sure you are on Ubuntu 20.04 LTS with ROS Noetic installed.
+1. Make sure you are on Ubuntu 20.04 LTS with ROS Noetic installed. If you are unable to use a dual boot or Ubuntu, VirtualBox is recommended (install Ubuntu 20.04 there).
 2. The robot used is Nao 6.
 
 # First Time Setup
@@ -10,6 +10,7 @@ Avoids complicated install and possible latency issues with other ROS implementa
 2. Right-click the .tar.gz file and click **Extract Here**. Make sure the top extracted folder is called `naoqi-sdk-2.8.5.10-linux64` and contains a `toolchain.xml` (not in any nested folders).
 3. Rename the top extracted folder from `naoqi-sdk-2.8.5.10-linux64` to `naoqi_sdk_cpp`.
 4. Open a terminal, clone this repository, and go into the `rosnao` workspace folder.
+
 ```
 cd ~
 git clone https://github.com/LaiYanKai/rosnao.git
@@ -27,6 +28,37 @@ chmod +x *.sh
 8. Install qibuild and configures it for this project. If prompted, install the qibuild if it is not installed, and choose `Unix Makefiles` for CMake Generator and `None` for IDE:
 ```
 sh init_qibuild.sh
+```
+
+# Connecting NAO to PC
+1. The user guide is available [here](http://doc.aldebaran.com/2-8/family/nao_user_guide/index.html). Please read first before continuing.
+2. Prepare the robot in crouching position and start the robot by pressing the chest button. Please take care not to topple the robot in this position, as the joints are not stiff (there's a joint controller).
+Some of our robots have their _autonomous life_ turned off. So the robot remains in this crouching position even after starting.
+3. Install [**Robot Settings**](http://doc.aldebaran.com/2-8/family/nao_user_guide/nao_robot_settings.html).
+4. Make sure your PC is connected to a network / router (for NUS students, this network cannot be any NUS network, please use your router instead).
+5. If NAO was never connected to the network / router that your PC is connected to, connect an Ethernet cable from the NAO to the router, and follow the steps [here](http://doc.aldebaran.com/2-8/family/nao_user_guide/nao-connecting.html) to ***connect wirelessly*** (Wi-Fi connection).
+6. For subsequent steps, make sure that your PC and NAO are connected to the network that you have chosen (you may choose another from Robot Settings).
+7. Obtain the PC's IP address (using ```ip a``` on an Ubuntu terminal).
+8. Obtain the Nao's IP address (click the Chest button or look at Robot Settings).
+9. Disconnect the ethernet cable, as NAO is already wirelessly connected. Subsequent boot-ups should connect to the network / router wirelessly if available.
+
+# Setup .bashrc ROS remote IP
+
+1. In terminal open .bashrc:
+```
+nano ~/.bashrc
+```
+2. Make sure the following is at the end of the .bashrc script. Scroll down using the `Arrow Down` key or use `Ctrl+End`:
+```
+export ROS_MASTER_URI=http://<PC IP>:11311
+export ROS_HOSTNAME=<PC IP>
+```
+where `<PC IP>` is replaced with the PC's IP address, or `localhost`. 
+If there are multiple identical lines, remove the rest, as only the last lines will take effect.
+3. Save and exit using `Ctrl+S` and then `Ctrl+X.
+4. For all open terminals, run:
+```
+source ~/.bashrc
 ```
 
 # Streaming the Grayscale Camera
