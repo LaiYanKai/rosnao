@@ -5,5 +5,5 @@
     
     <node pkg="rosnao_bridge" type="test_motion" name="test_motion" output="screen" args="$(arg shm_id)" required="true"/>
     <!-- Interface with sdk, launches proxy in nao, and put the image in shared memory -->
-    <node pkg="rosnao_bridge" type="motion_relay.sh" name="motion_sdk" output="screen" args="$(arg nao_ip) $(arg shm_id)" required="true /> <!-- "required" forces roslaunch to termiante-->
+    <node pkg="rosnao_bridge" type="motion_relay.sh" name="motion_sdk" output="screen" args="$(arg nao_ip) $(arg shm_id)" required="true" /> <!-- "required" forces roslaunch to termiante-->
 </launch>
